@@ -59,3 +59,18 @@ try {
 } catch (err) {
     console.error(`Error during web init, Error: ${err.stack}`);
 }
+
+// Set up final server
+try {
+    const httpServer = http.createServer(app);
+    let port = process.env.PORT || 80;
+    httpServer.listen(port, (err) => {
+        if (err) {
+            console.error(`FAILED TO OPEN WEB SERVER, ERROR: ${err.stack}`);
+            return;
+        }
+        console.info(`Successfully started server..listening on port ${port}`);
+    })
+} catch (err) {
+    console.error(`Error starting up server, Error: ${err.stack}`)
+}
