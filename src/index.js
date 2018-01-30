@@ -19,7 +19,9 @@ try {
             if (!file.startsWith('_') && file.endsWith('.js')) {
                 let service = require(path.join(serviceDir, file));
 
-                if (typeof service.name !== 'undefined' && typeof service.execute !== 'undefined') {
+                if (typeof service.info !== 'undefined' && typeof service.info.name !== 'undefined'
+                && typeof service.info.views !== 'undefined'
+                && typeof service.info.static !== 'undefined' && typeof service.execute !== 'undefined') {
                     availableServices[service.name] = service;
                     availableServiceNames.push(service.name);
                 } else {
@@ -27,7 +29,6 @@ try {
                 }
             }
         })
-
     })
 } catch (err) {
     console.error(`Error while setting up available modes, Error: ${err.stack}`);
@@ -53,9 +54,13 @@ try {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(express.static('Web'));
-    app.set('views', `${__dirname}/views`);
     app.set('view engine', 'ejs');
-    app.use('/', express.static(`${__dirname}/static`));
+
+    if (!availableServices[specificMode]) return console.error(`Error running mode ${specificMode}, Exiting..`);
+    app.use('/', express.static(`${__dirname}/services/${availableServices[specificMode].info.static}`));
+    app.set('views', `${__dirname}/services/${availableServices[specificMode].info.views}`);
+    availableServices[specificMode].execute(app);
+
 } catch (err) {
     console.error(`Error during web init, Error: ${err.stack}`);
 }

@@ -1,4 +1,6 @@
-exports.name = `example`;
-exports.execute = function (app) {
-
-};
+exports.info = {
+    name: 'example',
+    views: '/example/views',
+    static: '/example/static'
+}
+exports.execute = function (app) {};
