@@ -6,15 +6,26 @@ const bodyParser = require('body-parser');
 const readLine = require('readline');
 const chalk = require('chalk');
 
+const config = require('../config');
+const driver = require('./database/driver');
+const schemaUtils = require('./database/schemaUtils');
+
 const app = exports.app = express();
 let specificMode = process.env.mode;
 const serviceDir = path.join(__dirname, 'services');
+exports.databaseUrl = process.env.dburl || config.databaseUrl;
 
 const availableServices = [];
 const availableServiceNames = [];
 
 const notification = chalk.green(`[!]`);
 const noteError = chalk.red(`[!]`);
+
+if (exports.databaseUrl.length <= 10) console.info(`${noteError} ${chalk.red(`No database url specified... Only outputting to console!`)}`);
+else {
+    driver.connect();
+    console.info(`${notification} Successfully connected to database at: ${chalk.green(exports.databaseUrl)}`);
+}
 
 try {
     let files = fs.readdirSync(serviceDir);
@@ -76,7 +87,7 @@ function initWeb() {
         app.set('views', `${__dirname}/services/${availableServices[specificMode].info.views}`);
 
         try {
-            availableServices[specificMode].execute(app);
+            availableServices[specificMode].execute(app, schemaUtils);
         } catch (err) {
             console.error(`${noteError} Error handing service ${exports.info.name}, Error: ${err.stack}`);
         }
@@ -93,7 +104,7 @@ function initWeb() {
                 console.error(`${noteError} FAILED TO OPEN WEB SERVER, ERROR: ${err.stack}`);
                 return;
             }
-            console.info(`${notification} Successfully started ${chalk.red(specificMode)} server... listening on port ${chalk.green(port)}`);
+            console.info(`${notification} Successfully started ${chalk.red(specificMode)} server... listening on port: ${chalk.green(port)}`);
         })
     } catch (err) {
         console.error(`${noteError} Error starting up server, Error: ${err.stack}`)
