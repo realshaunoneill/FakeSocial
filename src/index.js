@@ -67,7 +67,7 @@ try {
         }
 
         let prompt = readLine.createInterface(process.stdin, process.stdout);
-        prompt.setPrompt(`${chalk.green(`[${chalk.red('**')}]`)} Please select one of the services to run: (${chalk.blue(availableServiceNames.join(', '))}): `);
+        prompt.setPrompt(`${chalk.green(`[${chalk.red('==')}]`)} Please select one of the services to run: (${chalk.blue(availableServiceNames.join(', '))}): `);
         prompt.prompt();
         prompt.on('line', line => {
             if (availableServiceNames.includes(line.toLowerCase())) {
