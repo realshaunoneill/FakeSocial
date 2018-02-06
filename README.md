@@ -1,6 +1,6 @@
 # FakeSocial
 
-## Installation
+## > Installation
 Download or clone the repository to your computer.  Run <code>npm install</code>.  This should only take a minute.
 The next step is to supply configuration arguments to the program, you can either rename the 'ex_config.js' to 'config.js' and edit
 the values or they can be passed in as enviroment values [<b>mode</b> | <b>dburl</b> | <b>port</b>].  If no values are inputed, the program will ask for values.
