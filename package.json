@@ -4,12 +4,13 @@
   "description": "Fake login for popular sites",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index"
   },
   "author": "Shaun O'Neill",
   "license": "ISC",
   "dependencies": {
     "body-parser": "latest",
+    "chalk": "^2.3.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2"
   }
