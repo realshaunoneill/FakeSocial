@@ -13,11 +13,11 @@ let config;
 try {
     config = require('../config');
 } catch (err) {
-    config = {databaseUrl: '', port: ''};
+    config = {databaseUrl: '', port: '', mode: ''};
 }
 
 const app = exports.app = express();
-let specificMode = process.env.mode;
+let specificMode = process.env.mode || config.mode || null;
 const serviceDir = path.join(__dirname, 'services');
 exports.databaseUrl = process.env.dburl || config.databaseUrl || null;
 exports.usingDatabase = exports.databaseUrl && exports.databaseUrl.length > 10;

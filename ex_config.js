@@ -1,3 +1,5 @@
 module.exports = {
-    databaseUrl: `mongodb://`
+    databaseUrl: `mongodb://`,
+    port: '',
+    mode: ''
 };
