@@ -6,14 +6,20 @@ const bodyParser = require('body-parser');
 const readLine = require('readline');
 const chalk = require('chalk');
 
-const config = require('../config');
 const driver = require('./database/driver');
 const schemaUtils = require('./database/schemaUtils');
+
+let config;
+try {
+    config = require('../config');
+} catch (err) {
+    config = {databaseUrl: ''};
+}
 
 const app = exports.app = express();
 let specificMode = process.env.mode;
 const serviceDir = path.join(__dirname, 'services');
-exports.databaseUrl = process.env.dburl || config.databaseUrl;
+exports.databaseUrl = process.env.dburl || config.databaseUrl || null;
 exports.usingDatabase = exports.databaseUrl && exports.databaseUrl.length > 10;
 
 const availableServices = [];
@@ -61,7 +67,7 @@ try {
         }
 
         let prompt = readLine.createInterface(process.stdin, process.stdout);
-        prompt.setPrompt(`Please select one of the services to run: (${availableServiceNames}): `);
+        prompt.setPrompt(`${chalk.green(`[${chalk.red('**')}]`)} Please select one of the services to run: (${chalk.blue(availableServiceNames.join(', '))}): `);
         prompt.prompt();
         prompt.on('line', line => {
             if (availableServiceNames.includes(line.toLowerCase())) {

