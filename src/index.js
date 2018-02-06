@@ -13,7 +13,7 @@ let config;
 try {
     config = require('../config');
 } catch (err) {
-    config = {databaseUrl: ''};
+    config = {databaseUrl: '', port: ''};
 }
 
 const app = exports.app = express();
@@ -105,7 +105,7 @@ function initWeb() {
 // Set up final server
     try {
         const httpServer = http.createServer(app);
-        let port = process.env.PORT || 80;
+        let port = process.env.PORT || config.port || 80;
         httpServer.listen(port, (err) => {
             if (err) {
                 console.error(`${noteError} FAILED TO OPEN WEB SERVER, ERROR: ${err.stack}`);
