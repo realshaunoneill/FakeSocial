@@ -5,6 +5,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const readLine = require('readline');
 const chalk = require('chalk');
+const morgan = require('morgan');
+const didyoumean = require('didyoumean');
 
 const driver = require('./database/driver');
 const schemaUtils = require('./database/schemaUtils');
@@ -75,7 +77,10 @@ try {
                 prompt.close();
 
                 initWeb();
-            } else prompt.prompt();
+            } else {
+                // User didyoumean to get closer results
+                prompt.prompt();
+            }
         })
     }
 } catch (err) {
@@ -85,6 +90,11 @@ try {
 function initWeb() {
     try {
         app.use(bodyParser.json());
+        app.use(morgan(':method :url :status - :response-time ms', {
+            skip: function (req, res) {
+                return res.statusCode === 404 || (res.statusCode < 400 && res.statusCode !== 200)
+            }
+        }));
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(express.static('Web'));
         app.set('view engine', 'ejs');

