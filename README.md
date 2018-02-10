@@ -1,4 +1,4 @@
-# FakeSocial
+# FakeSocial 🔥
 An educational program used to show how easy it is to make phishing websites look identical to their respective official
 websites.
 
