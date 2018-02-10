@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - OOP Development</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+</head>
+
+<body>
+<section class="hero is-dark is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">&bull;&nbsp;Saved login entries:</h1>
+            <h2 class="subtitle"><i>Remember, these credentials are for educational use only and shouldn't be used with
+                    malicious intent!</i></h2>
+        </div>
+        <hr/>
+        <br>
+
+        <table class="table" style="width: 100%">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th><i>Service</i></th>
+                <th>Date</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% for (let x = 0; x < loginEntries.length; x++) { %>
+            <tr>
+                <th><%- loginEntries[x].username %></th>
+                <th><%- loginEntries[x].password %></th>
+                <th><%- loginEntries[x].service %></th>
+                <th><%- loginEntries[x].date %></th>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div class="hero-foot has-text-centered">
+        <p><b>~ Made by <a href="https://www.shaunoneill.com">Shaun O'Neill</a> ~</b></p>
+    </div>
+</section>
+</body>
+</html>

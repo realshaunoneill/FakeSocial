@@ -10,12 +10,13 @@ const didyoumean = require('didyoumean');
 
 const driver = require('./database/driver');
 const schemaUtils = require('./database/schemaUtils');
+const dashboard = require('./dashboard/dashboard');
 
 let config;
 try {
     config = require('../config');
 } catch (err) {
-    config = {databaseUrl: '', port: '', mode: ''};
+    config = {databaseUrl: '', port: '', mode: '', dis_dashboard: false, debug: false};
 }
 
 const app = exports.app = express();
@@ -23,6 +24,8 @@ let specificMode = process.env.mode || config.mode || null;
 const serviceDir = path.join(__dirname, 'services');
 exports.databaseUrl = process.env.dburl || config.databaseUrl || null;
 exports.usingDatabase = exports.databaseUrl && exports.databaseUrl.length > 10;
+exports.dis_dashboard = process.env.dis_dashboard || config.dis_dashboard || false;
+exports.debugMode = process.env.debug || config.debug || false;
 
 const availableServices = [];
 const availableServiceNames = [];
@@ -31,6 +34,7 @@ const notification = chalk.green(`[!]`);
 const noteError = chalk.red(`[!]`);
 
 if (!exports.usingDatabase) console.info(`${noteError} ${chalk.red(`No database url specified... Only outputting to console!`)}`);
+if (exports.debugMode) console.info(`${notification} Debug mode enabled.. Showing all ${chalk.green(200)} requests on console!`);
 else {
     driver.connect();
     console.info(`${notification} Successfully connected to database at: ${chalk.green(exports.databaseUrl)}`);
@@ -92,16 +96,18 @@ function initWeb() {
         app.use(bodyParser.json());
         app.use(morgan(':method :url :status - :response-time ms', {
             skip: function (req, res) {
-                return res.statusCode === 404 || (res.statusCode < 400 && res.statusCode !== 200)
+                return exports.debugMode === false || res.statusCode !== 200;
             }
         }));
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(express.static('Web'));
         app.set('view engine', 'ejs');
 
+        if (!exports.dis_dashboard && exports.databaseUrl) dashboard.init(app);
+
         if (!availableServices[specificMode]) return console.error(`Error running mode ${specificMode}, Exiting..`);
         app.use('/', express.static(`${__dirname}/services/${availableServices[specificMode].info.static}`));
-        app.set('views', `${__dirname}/services/${availableServices[specificMode].info.views}`);
+        app.set('views', [`${__dirname}/dashboard/views/`, `${__dirname}/services/${availableServices[specificMode].info.views}`]);
 
         try {
             availableServices[specificMode].execute(app, schemaUtils);

@@ -14,7 +14,8 @@ exports.saveNewLogin = function (serviceName, username, password) {
         let newLogin = new driver.getModals().Creds({
             username: username,
             password: password,
-            service: serviceName
+            service: serviceName,
+            date: new Date().toDateString()
         });
         newLogin.save();
     }
@@ -26,6 +27,10 @@ exports.saveNewLogin = function (serviceName, username, password) {
  * @returns List of logins
  */
 exports.fetchLogins = async function() {
-    let logins = await driver.getModals().Creds.fetch({});
-    return logins;
+    try {
+        let logins = await driver.getModals().Creds.find({});
+        return logins || [];
+    } catch (err) {
+        console.error(`Unable to fetch logins, Error: ${err.stack}`);
+    }
 };
