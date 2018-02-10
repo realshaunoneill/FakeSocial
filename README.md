@@ -5,7 +5,7 @@ websites.
 ## Installation
 Download or clone the repository to your computer.  Run <code>npm install</code>.  This should only take a minute.
 The next step is to supply configuration arguments to the program, you can either rename the 'ex_config.js' to 'config.js' and edit
-the values or they can be passed in as enviroment values [<b>mode</b> | <b>dburl</b> | <b>port</b> | <b>debug</b>].  If no mode is entered, it will ask you to enter one.
+the values or they can be passed in as enviroment values [<b>mode</b> | <b>dburl</b> | <b>port</b> | <b>dis_dashboard</b> | <b>debug</b>].  If no mode is entered, it will ask you to enter one.
 <br/><b>Note:</b> The default value for the port is <b>80</b> and with no dburl, messages will be sent to the console. Debug mode
 is disabled by default.  Enabling this will display all status 200 connections on the console
 
