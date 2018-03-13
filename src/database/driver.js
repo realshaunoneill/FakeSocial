@@ -3,7 +3,7 @@ const index = require('../index');
 const mongoose = require('mongoose');
 let db = exports.db = null;
 
-exports.connect = function () {
+exports.connect = () => {
     try {
 
         mongoose.connect(index.databaseUrl, {
@@ -19,12 +19,12 @@ exports.connect = function () {
 
         loadSchemas();
 
-        db.on('err', (err) => {
+        db.on('err', err => {
             console.error(`An error occurred starting the database, Error: ${err.stack}`);
             return false;
         });
 
-        db.once('open', function () {
+        db.once('open', () => {
             return true;
         });
 
@@ -33,11 +33,11 @@ exports.connect = function () {
     }
 };
 
-exports.getModals = function () {
+exports.getModels = () => {
     return mongoose.models;
 };
 
-exports.getConnection = function () {
+exports.getConnection = () => {
     return mongoose.connection;
 };
 
