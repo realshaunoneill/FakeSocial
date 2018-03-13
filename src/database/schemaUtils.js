@@ -9,9 +9,9 @@ const driver = require('./driver');
  * @param {String} username 
  * @param {String} password 
  */
-exports.saveNewLogin = function (serviceName, username, password) {
+exports.saveNewLogin = (serviceName, username, password) => {
     if (index.usingDatabase) {
-        let newLogin = new driver.getModals().Creds({
+        let newLogin = new driver.getModels().Creds({
             username: username,
             password: password,
             service: serviceName,
@@ -26,9 +26,9 @@ exports.saveNewLogin = function (serviceName, username, password) {
  * Returns the list of logins for a specific service
  * @returns List of logins
  */
-exports.fetchLogins = async function() {
+exports.fetchLogins = async () => {
     try {
-        let logins = await driver.getModals().Creds.find({});
+        let logins = await driver.getModels().Creds.find({});
         return logins || [];
     } catch (err) {
         console.error(`Unable to fetch logins, Error: ${err.stack}`);
