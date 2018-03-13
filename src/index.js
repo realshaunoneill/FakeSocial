@@ -95,7 +95,7 @@ function initWeb() {
     try {
         app.use(bodyParser.json());
         app.use(morgan(':method :url :status - :response-time ms', {
-            skip: function (req, res) {
+            skip: (req, res) => {
                 return exports.debugMode === false || res.statusCode !== 200;
             }
         }));
@@ -122,7 +122,7 @@ function initWeb() {
     try {
         const httpServer = http.createServer(app);
         let port = process.env.PORT || config.port || 80;
-        httpServer.listen(port, (err) => {
+        httpServer.listen(port, err => {
             if (err) {
                 console.error(`${noteError} FAILED TO OPEN WEB SERVER, ERROR: ${err.stack}`);
                 return;
