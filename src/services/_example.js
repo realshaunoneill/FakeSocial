@@ -3,5 +3,5 @@ exports.info = {
     views: '/example/views',
     static: '/example/static'
 };
-exports.execute = function (app, schemaUtils) {
+exports.execute = (app, schemaUtils) => {
 };
